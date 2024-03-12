@@ -1,9 +1,9 @@
-import 'package:isuzu/pages/login.dart';
+import 'package:isuzu/ui/pages/home.dart';
+import 'package:isuzu/ui/pages/login.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:isuzu/components/splash.dart';
+import 'package:isuzu/ui/pages/splash.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
@@ -18,6 +18,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+final supabase = Supabase.instance.client;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
           '/': (context) => const SplashWrapper(),
           '/login-page': (context) => LoginPage(
                 controller: TextEditingController(),
-              )
+              ),
+          '/home-page': (context) => const HomePage(),
         });
   }
 }
