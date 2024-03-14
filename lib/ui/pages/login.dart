@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    showPassword = true;
+    showPassword = false;
   }
 
   @override
@@ -152,7 +152,6 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white, fontWeight: FontWeight.w600),
                 )),
           ),
-         
         ],
       )),
     );
