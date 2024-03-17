@@ -13,7 +13,7 @@ class _RegisterPageState extends State<RegisterPage> {
   double width(BuildContext context) => MediaQuery.of(context).size.width;
   double height(BuildContext context) => MediaQuery.of(context).size.height;
 
-  // final TextEditingController _usernameController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -40,29 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
               fit: BoxFit.cover,
             ),
           ),
-          //  Row(
-          //   children: [
-          //     Container(
-          //         margin: EdgeInsets.only(left: width(context) * 0.1),
-          //         child: const Text("Nama")),
-          //   ],
-          // ),
-          // Container(
-          //   margin: EdgeInsets.only(
-          //       left: width(context) * 0.1,
-          //       right: width(context) * 0.1,
-          //       bottom: height(context) * 0.05,
-          //       top: height(context) * 0.01),
-          //   child: TextField(
-          //     controller: _emailController,
-          //     decoration: InputDecoration(
-          //         enabledBorder: OutlineInputBorder(
-          //             borderRadius: BorderRadius.circular(12)),
-          //         focusedBorder: OutlineInputBorder(
-          //             borderRadius: BorderRadius.circular(12)),
-          //         hintText: "Masukkan Nama"),
-          //   ),
-          // ),
+  
           Row(
             children: [
               Container(
