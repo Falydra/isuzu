@@ -13,7 +13,7 @@ class _SplashWrapperState extends State<SplashWrapper> {
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
             builder: (context) => LoginPage(
