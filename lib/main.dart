@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:isuzu/ui/pages/splash.dart';
 import 'dart:async';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:isuzu/ui/widgets/navigation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
                 controller: TextEditingController(),
               ),
           '/home-page': (context) => const HomePage(),
+          '/navigation-menu': (context) => const NavigationMenu(),
         });
   }
 }

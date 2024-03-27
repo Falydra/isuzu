@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:isuzu/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,81 +12,78 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _future = supabase.from('user').select();
+  
   double width(BuildContext context) => MediaQuery.of(context).size.width;
   double height(BuildContext context) => MediaQuery.of(context).size.height;
+
+  // String _defaultMessage = "Hai, mau tanya tentang layanan Anda.";
+
+  // Future<void> _launchWhatsApp(String phoneNumber, String message) async {
+  //   final link = WhatsAppUnilink(
+  //     phoneNumber: phoneNumber,
+  //     text: message,
+  //   );
+  //   await launchUrl(link.asUri());
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Column(
-        children: [
-          Container(
-              margin: EdgeInsets.only(top: height(context) * 0.02),
-              child: Text("Pilih Layanan / Jenis Perawatan")),
-          Container(
-            margin: EdgeInsets.only(
-                top: height(context) * 0.05, bottom: height(context) * 0.02),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    backgroundColor: const Color(0xFFff0404),
-                    fixedSize:
-                        Size(width(context) * 0.8, height(context) * 0.07)),
-                onPressed: () {
-                  return;
-                },
-                child: const Text(
-                  "Penggantian Oli",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w600),
-                )),
-          ),
-          Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.only(
-                top: height(context) * 0.05, bottom: height(context) * 0.02),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    backgroundColor: const Color(0xFFff0404),
-                    fixedSize:
-                        Size(width(context) * 0.8, height(context) * 0.07)),
-                onPressed: () {
-                  return;
-                },
-                child: const Text(
-                  "Pemeriksaan rem",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w600),
-                )),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-                top: height(context) * 0.05, bottom: height(context) * 0.02),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    backgroundColor: const Color(0xFFff0404),
-                    fixedSize:
-                        Size(width(context) * 0.8, height(context) * 0.07)),
-                onPressed: () {
-                  return;
-                },
-                child: const Text(
-                  "Penggantian Filter Udara",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w600),
-                )),
+      appBar: AppBar(
+        title: const Text('Isuzu Bengkel'),
+      ),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.only(top: 8.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  FutureBuilder(
+                    future: _future,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        print('Error: ${snapshot.error}');
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(
+                            child: Text('Tidak ada yang tersedia'));
+                      } else {
+                        final users = snapshot.data!;
+
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            final userData = users[index];
+                            print(userData);
+                            final name = userData['name'] ?? '';
+                            final phone = userData['phone'] ?? '';
+                            print(userData);
+                            return ListTile(
+                              title: Text(name),
+                              subtitle: Text(phone),
+                              trailing: ElevatedButton(
+                                onPressed: () {
+                                  // _launchWhatsApp(phone, _defaultMessage);
+                                },
+                                child: Text('Chat'),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
-      )),
+      ),
     );
   }
 }

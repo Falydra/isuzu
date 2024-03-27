@@ -44,7 +44,7 @@ class SplashScreen extends StatelessWidget {
           width: width(context) * 0.25,
           child: const Image(
             image:
-                AssetImage('build/assets/images/Isuzu-logo-1991-3840x2160.png'),
+                AssetImage('assets/images/Isuzu-logo-1991-3840x2160.png'),
             fit: BoxFit.fill,
           ),
         ),

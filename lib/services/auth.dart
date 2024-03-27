@@ -9,7 +9,7 @@ void userAuth(BuildContext context, email, String password) async {
     AuthResponse response = await supabase.auth
         .signInWithPassword(email: email, password: password);
     if (response.user != null) {
-      Navigator.pushReplacementNamed(context, '/home-page');
+      Navigator.pushReplacementNamed(context, '/navigation-menu');
       List<String> parts = email.split('@');
       String username = parts[0];
       storageControl.data('uid', username);
