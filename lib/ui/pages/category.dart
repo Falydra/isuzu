@@ -12,7 +12,7 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     String defaultMessage = "Hai, mau tanya tentang layanan Anda.";
 
-    Future<void> _launchWhatsApp(String phoneNumber, String message) async {
+    Future<void> launchWhatsApp(String phoneNumber, String message) async {
       final link = WhatsAppUnilink(
         phoneNumber: phoneNumber,
         text: message,
@@ -27,7 +27,7 @@ class CategoryPage extends StatelessWidget {
         children: [
           Container(
               margin: EdgeInsets.only(top: height(context) * 0.02),
-              child: Text("Pilih Layanan / Jenis Perawatan")),
+              child: const Text("Pilih Layanan / Jenis Perawatan")),
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(
@@ -41,7 +41,7 @@ class CategoryPage extends StatelessWidget {
                     fixedSize:
                         Size(width(context) * 0.8, height(context) * 0.07)),
                 onPressed: () {
-                  _launchWhatsApp("6285900363157", defaultMessage);
+                  launchWhatsApp("6285900363157", defaultMessage);
                 },
                 child: const Text(
                   "Penggantian Oli",

@@ -39,7 +39,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Center(
-        child: Container(
+        child: SizedBox(
           height: width(context) * 0.25,
           width: width(context) * 0.25,
           child: const Image(

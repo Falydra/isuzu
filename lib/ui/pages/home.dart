@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp_unilink/whatsapp_unilink.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:isuzu/main.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:isuzu/services/crud.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,20 +9,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _future = supabase.from('user').select();
-  
+  late Future<List<dynamic>> userData;
+
+  @override
+  void initState() {
+    super.initState();
+    userData = readUser2();
+  }
+
   double width(BuildContext context) => MediaQuery.of(context).size.width;
   double height(BuildContext context) => MediaQuery.of(context).size.height;
-
-  // String _defaultMessage = "Hai, mau tanya tentang layanan Anda.";
-
-  // Future<void> _launchWhatsApp(String phoneNumber, String message) async {
-  //   final link = WhatsAppUnilink(
-  //     phoneNumber: phoneNumber,
-  //     text: message,
-  //   );
-  //   await launchUrl(link.asUri());
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -40,37 +33,41 @@ class _HomePageState extends State<HomePage> {
             sliver: SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  FutureBuilder(
-                    future: _future,
-                    builder: (context, snapshot) {
+                  FutureBuilder<List<dynamic>>(
+                    future: userData,
+                    builder: (context,
+                        AsyncSnapshot<List<dynamic>> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        print('Error: ${snapshot.error}');
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return const Center(
-                            child: Text('Tidak ada yang tersedia'));
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.0,
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
                       } else {
-                        final users = snapshot.data!;
+                        final List<dynamic>? userList =
+                            snapshot.data;
+
+                        if (userList == null || userList.isEmpty) {
+                          return const Text('No user data available.');
+                        }
 
                         return ListView.builder(
                           shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
+                          itemCount: userList.length,
                           itemBuilder: (context, index) {
-                            final userData = users[index];
-                            print(userData);
+                            final userData = userList[index];
                             final name = userData['name'] ?? '';
                             final phone = userData['phone'] ?? '';
-                            print(userData);
                             return ListTile(
-                              title: Text(name),
-                              subtitle: Text(phone),
+                              title: Text(name.toString()),
+                              subtitle: Text(phone.toString()),
                               trailing: ElevatedButton(
                                 onPressed: () {
                                   // _launchWhatsApp(phone, _defaultMessage);
                                 },
-                                child: Text('Chat'),
+                                child: const Text('Chat'),
                               ),
                             );
                           },
