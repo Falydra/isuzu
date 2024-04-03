@@ -4,8 +4,13 @@ import 'package:get_storage/get_storage.dart';
 class StorageControl extends GetxController {
   final storage = GetStorage();
 
-  void data(String key, dynamic value) {
-    storage.write(key, value);
+  Future<void> data(String key, dynamic value) async {
+    try {
+      await storage.write(key, value);
+    } catch (e) {
+      // Handle storage write error
+      print("Error writing to storage: $e");
+    }
   }
 
   dynamic getData(String key) {

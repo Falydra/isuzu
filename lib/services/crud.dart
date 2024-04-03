@@ -1,11 +1,11 @@
 import 'package:isuzu/main.dart';
 import 'dart:core';
 
-Future<List<Map<String, dynamic>>> readUser() async {
-  return supabase.from('user').select().then((response) {
+Future<List<dynamic>> readUser() async {
+  return supabase.from('user').select().execute().then((response) {
     print('RESPONSE $response');
-    final List<Map<String,dynamic>> data = response;
-    return data as List<Map<String, dynamic>>;
+    final List<dynamic> data = response.data;
+    return data;
   });
 }
 
@@ -14,4 +14,5 @@ Future<List<dynamic>> readUser2() async {
   print('RESPONSE ${response.data}');
   return response.data;
 }
+
 

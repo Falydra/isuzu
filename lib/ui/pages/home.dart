@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     userData = readUser2();
+    print("userdata ${userData}");
   }
 
   double width(BuildContext context) => MediaQuery.of(context).size.width;
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> {
                     future: userData,
                     builder: (context,
                         AsyncSnapshot<List<dynamic>> snapshot) {
+                        print("userdata ${snapshot.data}");
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
                           child: CircularProgressIndicator(
@@ -48,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         final List<dynamic>? userList =
                             snapshot.data;
-
+                            print("snapshot ${snapshot.data}");
                         if (userList == null || userList.isEmpty) {
                           return const Text('No user data available.');
                         }

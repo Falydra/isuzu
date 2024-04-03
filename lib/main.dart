@@ -11,10 +11,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
-  final String supabaseUrl = dotenv.env['SUPABASE_URL']!;
-  final String anonKey = dotenv.env['SUPABASE_ANON_KEY']!;
+  // final String supabaseUrl = dotenv.env['SUPABASE_URL']!;
+  // final String anonKey = dotenv.env['SUPABASE_ANON_KEY']!;
 
-  await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
+  // await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
+
+  await Supabase.initialize(
+    url: 'https://dcvbcptpncktkldscxmf.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjdmJjcHRwbmNrdGtsZHNjeG1mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk5NjIwMTIsImV4cCI6MjAyNTUzODAxMn0.IdrVMHLGNSCJF4MEuQOGI7TmWShcA31K_H5y9hXG2PU',
+    authFlowType: AuthFlowType.pkce,
+  );
 
   runApp(const MyApp());
 }
