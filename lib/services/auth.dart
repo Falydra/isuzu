@@ -15,7 +15,19 @@ void userAuth(BuildContext context, email, String password) async {
       storageControl.data('uid', username);
     }
   } catch (e) {
-    showAlerts(context, e.toString());
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Error"),
+        content: Text("Excpecteed Error, Try Again"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Ingfo diterima"),
+          ),
+        ],
+      ),
+    );
   }
 }
 
