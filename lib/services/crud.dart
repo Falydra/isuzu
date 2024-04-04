@@ -7,6 +7,16 @@ Future<List<dynamic>> readUser() async {
   return response;
 }
 
+Future<List<dynamic>> fetchOilData() async {
+  final response = await supabase.from('oil_check').select();
+  return response;
+}
+
+Future<List<dynamic>> fetchSparepartData() async {
+  final response = await supabase.from('sparepart_check').select();
+  return response;
+}
+
 Future<Map<String, dynamic>> findUserOilCheck(String name) async {
   final response =
       await supabase.from('oil_check').select().eq('name', name).single();
