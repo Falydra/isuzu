@@ -4,7 +4,7 @@ import 'package:isuzu/ui/shared/theme.dart';
 import 'package:isuzu/services/crud.dart';
 
 class DetailUser extends StatefulWidget {
-  const DetailUser({Key? key}) : super(key: key);
+  const DetailUser({super.key});
 
   @override
   State<DetailUser> createState() => _DetailUserState();
@@ -52,6 +52,18 @@ class _DetailUserState extends State<DetailUser> {
                 ),
                 const SizedBox(height: 16.0),
                 const Text(
+                  'Nama Unit',
+                  style: TextStyle(fontSize: 16.0, color: Colors.grey),
+                ),
+                Text(
+                  '${userData['unit']}',
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                const Text(
                   'Nomor Telepon',
                   style: TextStyle(fontSize: 16.0, color: Colors.grey),
                 ),
@@ -68,9 +80,9 @@ class _DetailUserState extends State<DetailUser> {
                   style: TextStyle(fontSize: 16.0, color: Colors.grey),
                 ),
                 Text(
-                  DateFormat('d MMM yyyy').format(
+                  ("${DateFormat('d MMM yyyy').format(
                     DateTime.parse(userData['last_routine_check']),
-                  ),
+                  )} (${DateTime.now().difference(DateTime.parse(userData['last_routine_check'])).inDays} hari)"),
                   style: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w400,

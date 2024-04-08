@@ -20,23 +20,33 @@ class _NavigationMenuState extends State<NavigationMenu> {
     return Scaffold(
         bottomNavigationBar: Obx(
           () => NavigationBar(
-              height: 60,
-              elevation: 0,
-              indicatorColor: isuzu50,
-              indicatorShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)),
-              selectedIndex: controller._selectedIndex.value,
-              onDestinationSelected: (int index) {
-                controller._selectedIndex.value = index;
-              },
-              destinations: const [
-                NavigationDestination(
-                    icon: Icon(Icons.home_outlined), label: 'Beranda'),
-                NavigationDestination(
-                    icon: Icon(Icons.list_alt_rounded), label: 'Kategori'),
-                NavigationDestination(
-                    icon: Icon(Icons.person), label: 'Pengguna')
-              ]),
+            height: 60,
+            elevation: 0,
+            indicatorColor: isuzu50,
+            indicatorShape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            selectedIndex: controller._selectedIndex.value,
+            onDestinationSelected: (int index) {
+              controller._selectedIndex.value = index;
+            },
+            destinations: [
+              NavigationDestination(
+                icon: const Icon(Icons.home_outlined),
+                label: 'Beranda',
+                selectedIcon: Icon(Icons.home_filled, color: isuzu500),
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.list_alt_rounded),
+                label: 'Pengecekan',
+                selectedIcon: Icon(Icons.list_alt_sharp, color: isuzu500),
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.person_outline),
+                label: 'Pengguna',
+                selectedIcon: Icon(Icons.person, color: isuzu500),
+              ),
+            ],
+          ),
         ),
         body: Obx(() => controller.screen[controller._selectedIndex.value]));
   }
@@ -45,5 +55,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
 class NavigationController extends GetxController {
   final Rx<int> _selectedIndex = 0.obs;
 
-  final screen = [const HomePage(), const CategoryPage(), const UserPage()];
+  final screen = [
+    const HomePage(),
+    const CategoryPage(),
+    const UserPage()
+  ];
 }

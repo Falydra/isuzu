@@ -17,12 +17,12 @@ void userAuth(BuildContext context, email, String password) async {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Error"),
-        content: Text("Excpecteed Error, Try Again"),
+        title: const Text("Error"),
+        content: const Text("Excpecteed Error, Try Again"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("Ingfo diterima"),
+            child: const Text("Ingfo diterima"),
           ),
         ],
       ),
@@ -47,12 +47,12 @@ void registerAuth(
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Error"),
-        content: Text("Excpecteed Error, Try Again"),
+        title: const Text("Error"),
+        content: const Text("Excpecteed Error, Try Again"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("Ingfo diterima"),
+            child: const Text("Ingfo diterima"),
           ),
         ],
       ),

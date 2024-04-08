@@ -3,8 +3,15 @@ import 'package:intl/intl.dart';
 import 'package:isuzu/services/crud.dart';
 import 'package:isuzu/ui/shared/theme.dart';
 
-class CategoryPage extends StatelessWidget {
-  const CategoryPage({Key? key});
+class CategoryPage extends StatefulWidget {
+  const CategoryPage({super.key});
+
+  @override
+  State<CategoryPage> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage> {
+  late Future<List<dynamic>> userData;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +23,8 @@ class CategoryPage extends StatelessWidget {
           bottom: TabBar(
             indicatorColor: isuzu500,
             labelColor: isuzu500,
-            labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            labelStyle:
+                const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             tabs: const [
               Tab(text: 'Pengecekan Oli'),
               Tab(text: 'Pengecekan Sparepart'),
@@ -45,7 +53,7 @@ class CategoryPage extends StatelessWidget {
       future: fetchData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
@@ -54,7 +62,6 @@ class CategoryPage extends StatelessWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               final name = data[index]['name'];
-              final phone = data[index]['phone'];
               final lastService = data[index]['last_service'];
               String lastServiceText;
 
@@ -65,30 +72,48 @@ class CategoryPage extends StatelessWidget {
                 lastServiceText = 'Belum pernah service.';
               }
 
-              return ListTile(
-                title: Text(
-                  name.toString(),
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w500),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  softWrap: false,
-                ),
-                subtitle:
-                    Text(lastServiceText, style: const TextStyle(fontSize: 16)),
-                trailing: ElevatedButton(
-                  onPressed: () {
-                    launchWhatsAppUri(name, phone, lastServiceText);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isuzu500,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                  ),
-                  child: const Text('Chat',
-                      style: TextStyle(color: Colors.white, fontSize: 16)),
-                ),
+              return FutureBuilder(
+                future: findUser(name),
+                builder: (context, userSnapshot) {
+                  if (userSnapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox.shrink();
+                  } else if (userSnapshot.hasError) {
+                    return Text('Error: ${userSnapshot.error}');
+                  } else {
+                    final userData = userSnapshot.data;
+                    if (userData == null) {
+                      return Text('User dengan nama $name tidak ditemukan.');
+                    }
+
+                    final phone = userData['phone'];
+                    return ListTile(
+                      title: Text(
+                        name.toString(),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
+                      ),
+                      subtitle: Text(lastServiceText,
+                          style: const TextStyle(fontSize: 16)),
+                      trailing: ElevatedButton(
+                        onPressed: () {
+                          launchWhatsAppUri(name, phone, lastServiceText);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isuzu500,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                        ),
+                        child: const Text('Chat',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16)),
+                      ),
+                    );
+                  }
+                },
               );
             },
           );

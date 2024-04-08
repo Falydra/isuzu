@@ -1,4 +1,4 @@
-import 'package:isuzu/ui/pages/detailUser.dart';
+import 'package:isuzu/ui/pages/detail_user.dart';
 import 'package:isuzu/ui/pages/home.dart';
 import 'package:isuzu/ui/pages/login.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
               ),
           '/home-page': (context) => const HomePage(),
           '/navigation-menu': (context) => const NavigationMenu(),
-          '/detail-user': (context) => DetailUser(),
+          '/detail-user': (context) => const DetailUser(),
         });
   }
 }

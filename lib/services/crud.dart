@@ -17,6 +17,11 @@ Future<List<dynamic>> fetchSparepartData() async {
   return response;
 }
 
+Future<Map<String, dynamic>> findUser(String name) async {
+  final response = await supabase.from('user').select().eq('name', name).single();
+  return response;
+}
+
 Future<Map<String, dynamic>> findUserOilCheck(String name) async {
   final response =
       await supabase.from('oil_check').select().eq('name', name).single();
@@ -26,6 +31,21 @@ Future<Map<String, dynamic>> findUserOilCheck(String name) async {
 Future<Map<String, dynamic>> findUserSparePartCheck(String name) async {
   final response =
       await supabase.from('sparepart_check').select().eq('name', name).single();
+  return response;
+}
+
+Future<void> addUser(Map<String, dynamic> user) async {
+  final response = await supabase.from('user').upsert(user);
+  return response;
+}
+
+Future<void> addOilCheck(Map<String, dynamic> oilCheck) async {
+  final response = await supabase.from('oil_check').upsert(oilCheck);
+  return response;
+}
+
+Future<void> addSparepartCheck(Map<String, dynamic> sparePartCheck) async {
+  final response = await supabase.from('sparepart_check').upsert(sparePartCheck);
   return response;
 }
 
