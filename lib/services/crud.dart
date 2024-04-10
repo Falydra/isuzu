@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<List<dynamic>> readUser() async {
-  final response = await supabase.from('user').select();
+  final response = await supabase.from('user').select().order('last_routine_check', ascending: true);
   return response;
 }
 
@@ -18,7 +18,8 @@ Future<List<dynamic>> fetchSparepartData() async {
 }
 
 Future<Map<String, dynamic>> findUser(String name) async {
-  final response = await supabase.from('user').select().eq('name', name).single();
+  final response =
+      await supabase.from('user').select().eq('name', name).single();
   return response;
 }
 
@@ -45,7 +46,41 @@ Future<void> addOilCheck(Map<String, dynamic> oilCheck) async {
 }
 
 Future<void> addSparepartCheck(Map<String, dynamic> sparePartCheck) async {
-  final response = await supabase.from('sparepart_check').upsert(sparePartCheck);
+  final response =
+      await supabase.from('sparepart_check').upsert(sparePartCheck);
+  return response;
+}
+
+Future<void> updateLastRoutineCheck(String name) async {
+  DateTime now = DateTime.now();
+
+  String formattedDate = now.toIso8601String();
+
+  final response = await supabase.from('user').update({
+    'last_routine_check': formattedDate,
+  }).eq('name', name);
+  return response;
+}
+
+Future<void> updateLastOilCheck(String name) async {
+  DateTime now = DateTime.now();
+
+  String formattedDate = now.toIso8601String();
+
+  final response = await supabase.from('oil_check').update({
+    'last_service': formattedDate,
+  }).eq('name', name);
+  return response;
+}
+
+Future<void> updateLastSparepartCheck(String name) async {
+  DateTime now = DateTime.now();
+
+  String formattedDate = now.toIso8601String();
+
+  final response = await supabase.from('sparepart_check').update({
+    'last_service': formattedDate,
+  }).eq('name', name);
   return response;
 }
 

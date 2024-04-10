@@ -4,7 +4,10 @@ import 'package:isuzu/ui/shared/theme.dart';
 import 'package:isuzu/services/crud.dart';
 
 class DetailUser extends StatefulWidget {
-  const DetailUser({super.key});
+  final Map<String, dynamic> userData;
+  final VoidCallback onDataUpdated;
+
+  const DetailUser({Key? key, required this.userData, required this.onDataUpdated}) : super(key: key);
 
   @override
   State<DetailUser> createState() => _DetailUserState();
@@ -22,14 +25,19 @@ class _DetailUserState extends State<DetailUser> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> userData =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Map<String, dynamic> userData = widget.userData;
     oilCheckData = findUserOilCheck(userData['name']);
     sparepartCheckData = findUserSparePartCheck(userData['name']);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail Pengguna'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context, "refresh");
+          },
+        ),
       ),
       body: Stack(
         children: [
@@ -117,78 +125,88 @@ class _DetailUserState extends State<DetailUser> {
                         surfaceTintColor: Colors.white,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                    
-                                    title: const Text(
-                                      'Terakhir Cek Oli',
-                                      style: TextStyle(fontSize: 16.0), textAlign: TextAlign.center,
+                          child: Column(
+                            children: [
+                              ListTile(
+                                  title: const Text(
+                                    'Terakhir Cek Oli',
+                                    style: TextStyle(fontSize: 16.0),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  subtitle: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Text(
+                                      lastServiceText,
+                                      style: const TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    subtitle: Container(
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 8.0),
-                                      child: Text(
-                                        lastServiceText,
-                                        style: const TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w500),
-                                        textAlign: TextAlign.center,
+                                  )),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton.icon(
+                                      icon: const Icon(Icons.check,
+                                          color: Colors.white),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: isuzu500,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                        ),
                                       ),
-                                    )),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Expanded(
-                                      child: ElevatedButton.icon(
-                                        icon: const Icon(Icons.check,
-                                            color: Colors.white),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: isuzu500,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
+                                      onPressed: () {
+                                        updateLastOilCheck(userData['name'])
+                                            .then((_) {
+                                          setState(() {
+                                            oilCheckData['last_service'] =
+                                                DateTime.now().toString();
+                                          });
+
+                                          widget.onDataUpdated();
+                                        });
+                                      },
+                                      label: const Text(
+                                        'Sudah Cek',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  Expanded(
+                                    child: ElevatedButton.icon(
+                                      icon: Icon(Icons.chat, color: isuzu500),
+                                      onPressed: () {
+                                        launchWhatsAppUri(
+                                          userData['name'],
+                                          userData['phone'],
+                                          DateFormat('d MMM yyyy').format(
+                                            DateTime.parse(
+                                                userData['last_routine_check']),
                                           ),
-                                        ),
-                                        onPressed: () {},
-                                        label: const Text(
-                                          'Sudah Cek',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16.0),
-                                    Expanded(
-                                      child: ElevatedButton.icon(
-                                        icon: Icon(Icons.chat, color: isuzu500),
-                                        onPressed: () {
-                                          launchWhatsAppUri(
-                                            userData['name'],
-                                            userData['phone'],
-                                            DateFormat('d MMM yyyy').format(
-                                              DateTime.parse(
-                                                  userData['last_routine_check']),
-                                            ),
-                                          );
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(color: isuzu500),
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                          ),
-                                        ),
-                                        label: Text(
-                                          'Chat',
-                                          style: TextStyle(
-                                              color: isuzu500, fontSize: 16),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(color: isuzu500),
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
                                         ),
                                       ),
+                                      label: Text(
+                                        'Chat',
+                                        style: TextStyle(
+                                            color: isuzu500, fontSize: 16),
+                                      ),
                                     ),
-                                  ],
-                                )
-                              ],
-                            ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       );
                     }
@@ -269,7 +287,18 @@ class _DetailUserState extends State<DetailUser> {
                                               BorderRadius.circular(4.0),
                                         ),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        updateLastSparepartCheck(
+                                                userData['name'])
+                                            .then((_) {
+                                          setState(() {
+                                            sparepartCheckData['last_service'] =
+                                                DateTime.now().toString();
+                                          });
+
+                                          widget.onDataUpdated();
+                                        });
+                                      },
                                       label: const Text(
                                         'Sudah Cek',
                                         style: TextStyle(color: Colors.white),
@@ -336,7 +365,16 @@ class _DetailUserState extends State<DetailUser> {
                           borderRadius: BorderRadius.circular(4.0),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        updateLastRoutineCheck(userData['name']).then((_) {
+                          setState(() {
+                            userData['last_routine_check'] =
+                                DateTime.now().toString();
+                          });
+
+                          widget.onDataUpdated();
+                        });
+                      },
                       label: const Text(
                         'Sudah Cek Rutin',
                         style: TextStyle(color: Colors.white),

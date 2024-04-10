@@ -37,7 +37,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
               ),
               NavigationDestination(
                 icon: const Icon(Icons.list_alt_rounded),
-                label: 'Pengecekan',
+                label: 'Service',
                 selectedIcon: Icon(Icons.list_alt_sharp, color: isuzu500),
               ),
               NavigationDestination(
@@ -55,9 +55,5 @@ class _NavigationMenuState extends State<NavigationMenu> {
 class NavigationController extends GetxController {
   final Rx<int> _selectedIndex = 0.obs;
 
-  final screen = [
-    const HomePage(),
-    const CategoryPage(),
-    const UserPage()
-  ];
+  final screen = [const HomePage(), const CategoryPage(), const UserPage()];
 }

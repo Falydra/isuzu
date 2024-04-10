@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:isuzu/ui/pages/detail_user.dart';
 import 'package:isuzu/ui/shared/theme.dart';
 import 'package:isuzu/services/crud.dart';
 
@@ -17,6 +18,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     userData = readUser();
+  }
+
+  void refreshData() {
+    setState(() {
+      userData = readUser();
+    });
   }
 
   double width(BuildContext context) => MediaQuery.of(context).size.width;
@@ -107,9 +114,17 @@ class _HomePageState extends State<HomePage> {
                           ),
                           subtitle: Text(date.toString(),
                               style: const TextStyle(fontSize: 16)),
-                          onTap: () {
-                            Navigator.pushNamed(context, '/detail-user',
-                                arguments: userData);
+                          onTap: () async {
+                            String refresh = await Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailUser(
+                                userData: userData,
+                                onDataUpdated: () {},
+                              );
+                            }));
+                            if (refresh == 'refresh') {
+                              refreshData();
+                            }
                           },
                           trailing: ElevatedButton(
                             onPressed: () {
