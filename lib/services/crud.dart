@@ -3,17 +3,20 @@ import 'dart:core';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<List<dynamic>> readUser() async {
-  final response = await supabase.from('user').select().order('last_routine_check', ascending: true);
+  final response = await supabase
+      .from('user')
+      .select()
+      .order('last_routine_check', ascending: true);
   return response;
 }
 
 Future<List<dynamic>> fetchOilData() async {
-  final response = await supabase.from('oil_check').select();
+  final response = await supabase.from('oil_check').select().order("last_service", ascending: true, nullsFirst: true);
   return response;
 }
 
 Future<List<dynamic>> fetchSparepartData() async {
-  final response = await supabase.from('sparepart_check').select();
+  final response = await supabase.from('sparepart_check').select().order("last_service", ascending: true, nullsFirst: true);
   return response;
 }
 
@@ -87,6 +90,38 @@ Future<void> updateLastSparepartCheck(String name) async {
 launchWhatsAppUri(String name, String phone, String date) async {
   final message =
       "Yth. Bapak/Ibu $name\nKami dari pihak Isuzu ingin ingin mengingatkan bahwa terakhir kali anda melakukan service adalah pada tanggal *$date*.\n\nJadi kami ingin mengingatkan anda untuk melakukan service rutin kembali.\n\nTerima kasih,\nIsuzu Bengkel";
+
+  final Uri uri =
+      Uri.parse("https://api.whatsapp.com/send?phone=$phone&text=$message");
+
+  await launchUrl(uri);
+}
+
+launchWhatsAppUriOil(String name, String phone, String date) async {
+  final String message;
+  if (date == "Belum pernah service") {
+    message =
+        "Yth. Bapak/Ibu $name\nKami dari pihak Isuzu ingin ingin mengingatkan bahwa anda belum pernah mengecek oli sebelumnya.\n\nJadi kami ingin mengingatkan anda untuk melakukan pengecekan oli.\n\nTerima kasih,\nIsuzu Bengkel";
+  } else {
+    message =
+        "Yth. Bapak/Ibu $name\nKami dari pihak Isuzu ingin ingin mengingatkan bahwa terakhir kali anda melakukan pengecekan oli adalah pada tanggal *$date*.\n\nJadi kami ingin mengingatkan anda untuk melakukan pengecekan oli kembali.\n\nTerima kasih,\nIsuzu Bengkel";
+  }
+
+  final Uri uri =
+      Uri.parse("https://api.whatsapp.com/send?phone=$phone&text=$message");
+
+  await launchUrl(uri);
+}
+
+launchWhatsAppUriSparepart(String name, String phone, String date) async {
+  final String message;
+  if (date == "Belum pernah service") {
+    message =
+        "Yth. Bapak/Ibu $name\nKami dari pihak Isuzu ingin ingin mengingatkan bahwa anda belum pernah mengecek sparepart sebelumnya.\n\nJadi kami ingin mengingatkan anda untuk melakukan pengecekan sparepart anda.\n\nTerima kasih,\nIsuzu Bengkel";
+  } else {
+    message =
+        "Yth. Bapak/Ibu $name\nKami dari pihak Isuzu ingin ingin mengingatkan bahwa terakhir kali anda melakukan pengecekan sparepart adalah pada tanggal *$date*.\n\nJadi kami ingin mengingatkan anda untuk melakukan pengecekan sparepart kembali.\n\nTerima kasih,\nIsuzu Bengkel";
+  }
 
   final Uri uri =
       Uri.parse("https://api.whatsapp.com/send?phone=$phone&text=$message");

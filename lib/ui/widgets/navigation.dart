@@ -55,5 +55,11 @@ class _NavigationMenuState extends State<NavigationMenu> {
 class NavigationController extends GetxController {
   final Rx<int> _selectedIndex = 0.obs;
 
-  final screen = [const HomePage(), const CategoryPage(), const UserPage()];
+  final screen = [
+    const HomePage(),
+    CategoryPage(
+      onDataUpdated: () {},
+    ),
+    const UserPage()
+  ];
 }
