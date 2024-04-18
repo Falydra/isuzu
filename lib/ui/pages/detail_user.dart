@@ -7,7 +7,7 @@ class DetailUser extends StatefulWidget {
   final Map<String, dynamic> userData;
   final VoidCallback onDataUpdated;
 
-  const DetailUser({Key? key, required this.userData, required this.onDataUpdated}) : super(key: key);
+  const DetailUser({super.key, required this.userData, required this.onDataUpdated});
 
   @override
   State<DetailUser> createState() => _DetailUserState();

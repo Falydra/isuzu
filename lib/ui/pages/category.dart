@@ -6,7 +6,7 @@ import 'package:isuzu/ui/shared/theme.dart';
 class CategoryPage extends StatefulWidget {
   final VoidCallback onDataUpdated;
 
-  const CategoryPage({Key? key, required this.onDataUpdated}) : super(key: key);
+  const CategoryPage({super.key, required this.onDataUpdated});
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
@@ -18,7 +18,7 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2, // Jumlah tab
+      length: 2, 
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Kategori Service'),
