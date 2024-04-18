@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:isuzu/services/crud.dart';
 import 'package:isuzu/ui/shared/theme.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
     as date_picker;
+import 'package:excel/excel.dart';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -25,6 +29,56 @@ class _UserPageState extends State<UserPage> {
     nameController.dispose();
     phoneController.dispose();
     super.dispose();
+  }
+
+  Future<void> _insertDataExcel(File file) async {
+    var bytes = await file.readAsBytes();
+    var excel = Excel.decodeBytes(bytes);
+
+    var table = excel.tables.keys.first;
+    var rows = excel.tables[table]!.rows;
+
+    bool isFirstRow = true;
+
+    for (var row in rows) {
+      if (isFirstRow) {
+        isFirstRow = false;
+        continue;
+      }
+      var name = row[0]?.value.toString();
+      var phone = row[1]?.value.toString();
+      var unit = row[2]?.value.toString();
+      var lastRoutineCheckExcel = row[3]?.value.toString();
+      var lastOilCheckExcel = row[4]?.value.toString();
+      var lastSparepartCheckExcel = row[5]?.value.toString();
+      var sparepart = row[6]?.value.toString();
+
+      DateTime? lastRoutineCheck = DateTime.parse(lastRoutineCheckExcel!);
+      DateTime? lastOilCheck = DateTime.parse(lastOilCheckExcel!);
+      DateTime? lastSparepartCheck = DateTime.parse(lastSparepartCheckExcel!);
+
+      var user = {
+        'name': name,
+        'phone': phone,
+        'unit': unit,
+        'last_routine_check': lastRoutineCheck.toIso8601String(),
+      };
+
+      var oilCheck = {
+        'name': name,
+        'last_service': lastOilCheck.toIso8601String(),
+      };
+
+      var sparepartCheck = {
+        'name': name,
+        'last_service': lastSparepartCheck.toIso8601String(),
+        'type': sparepart,
+      };
+
+      await addUser(user);
+      await addOilCheck(oilCheck);
+      await addSparepartCheck(sparepartCheck);
+    }
   }
 
   @override
@@ -112,8 +166,8 @@ class _UserPageState extends State<UserPage> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      icon: Icon(Icons.calendar_month_outlined,
-                          color: isuzu500),
+                      icon:
+                          Icon(Icons.calendar_month_outlined, color: isuzu500),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(color: isuzu500),
@@ -143,8 +197,8 @@ class _UserPageState extends State<UserPage> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      icon: Icon(Icons.calendar_month_outlined,
-                          color: isuzu500),
+                      icon:
+                          Icon(Icons.calendar_month_outlined, color: isuzu500),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(color: isuzu500),
@@ -174,8 +228,8 @@ class _UserPageState extends State<UserPage> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      icon: Icon(Icons.calendar_month_outlined,
-                          color: isuzu500),
+                      icon:
+                          Icon(Icons.calendar_month_outlined, color: isuzu500),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(color: isuzu500),
@@ -254,7 +308,9 @@ class _UserPageState extends State<UserPage> {
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _pickExcel();
+                    },
                     label: const Text('Pilih file',
                         style: TextStyle(color: Colors.white)),
                   ),
@@ -265,6 +321,18 @@ class _UserPageState extends State<UserPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _pickExcel() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['xlsx', 'xls'],
+    );
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      await _insertDataExcel(file);
+    }
   }
 
   void _submitForm() async {
