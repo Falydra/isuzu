@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../controllers/storage_controller.dart';
 import '../main.dart';
 
-void userAuth(BuildContext context, email, String password) async {
+void userAuth( context, email, String password) async {
   try {
     AuthResponse response = await supabase.auth
         .signInWithPassword(email: email, password: password);
@@ -31,7 +31,7 @@ void userAuth(BuildContext context, email, String password) async {
 }
 
 void registerAuth(
-  BuildContext context,
+   context,
   String email,
   String password,
 ) async {

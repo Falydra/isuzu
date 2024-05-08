@@ -22,12 +22,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
           () => NavigationBar(
             height: 60,
             elevation: 0,
+
             indicatorColor: isuzu50,
             indicatorShape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             selectedIndex: controller._selectedIndex.value,
             onDestinationSelected: (int index) {
               controller._selectedIndex.value = index;
+              
             },
             destinations: [
               NavigationDestination(
