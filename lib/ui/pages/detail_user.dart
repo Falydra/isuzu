@@ -153,7 +153,7 @@ class _DetailUserState extends State<DetailUser> {
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Expanded(
+                                    Container(
                                       child: ElevatedButton.icon(
                                         icon: const Icon(Icons.check,
                                             color: Colors.white),
@@ -182,7 +182,7 @@ class _DetailUserState extends State<DetailUser> {
                                       ),
                                     ),
                                     const SizedBox(width: 16.0), //Need to be fixed
-                                    Expanded(
+                                    Container(
                                       child: ElevatedButton.icon(
                                         icon: Icon(Icons.chat, color: isuzu500),
                                         onPressed: () {
@@ -282,7 +282,7 @@ class _DetailUserState extends State<DetailUser> {
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Expanded(
+                                    Container(
                                       child: ElevatedButton.icon(
                                         icon: const Icon(Icons.check,
                                             color: Colors.white),
@@ -312,7 +312,7 @@ class _DetailUserState extends State<DetailUser> {
                                       ),
                                     ),
                                     SizedBox(width: width(context) * 0.02), //Need to be fixed
-                                    Expanded(
+                                    Container(
                                       child: ElevatedButton.icon(
                                         icon: Icon(Icons.chat, color: isuzu500),
                                         onPressed: () {
@@ -362,7 +362,7 @@ class _DetailUserState extends State<DetailUser> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(
+                    Container(
                       child: ElevatedButton.icon(
                         icon: const Icon(Icons.check, color: Colors.white),
                         style: ElevatedButton.styleFrom(
@@ -388,7 +388,7 @@ class _DetailUserState extends State<DetailUser> {
                       ),
                     ),
                     const SizedBox(width: 16.0), //Need to be fixed
-                    Expanded(
+                    Container(
                       child: ElevatedButton.icon(
                         icon: Icon(Icons.chat, color: isuzu500),
                         onPressed: () {
@@ -423,4 +423,4 @@ class _DetailUserState extends State<DetailUser> {
   }
 }
 
-//Fix build release by stop using Stack, Expanded, Positioned, TableCell, Listview, Flexible 
+//Fix build release by stop using Stack, Container, Positioned, TableCell, Listview, Flexible 

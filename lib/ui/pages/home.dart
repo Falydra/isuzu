@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:isuzu/ui/pages/detail_user.dart';
@@ -47,8 +45,11 @@ class _HomePageState extends State<HomePage> {
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
               children: [
-                Expanded(
-                  flex: 3,
+                Container(
+                  
+                  width: width(context) * 0.6,
+
+                  
                   child: Container(
                     height: 40.0,
                     decoration: BoxDecoration(
@@ -75,8 +76,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(width: 16.0),
-                Expanded(
-                  flex: 1,
+                Container(
+                  
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     height: 40.0,
@@ -122,7 +123,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Expanded(
+          Flexible(
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverPadding(

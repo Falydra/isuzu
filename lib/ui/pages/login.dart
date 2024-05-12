@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Expanded(
+        body: Container(
             child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(children: [
-                Expanded(
+                Container(
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
               const Text("Belum Punya Akun?"),
               const SizedBox(height: 8),
               Row(children: [
-                Expanded(
+                Container(
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(

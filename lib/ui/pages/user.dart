@@ -163,7 +163,7 @@ class _UserPageState extends State<UserPage> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(
+                  Container(
                     child: ElevatedButton.icon(
                       icon:
                           Icon(Icons.calendar_month_outlined, color: isuzu500),
@@ -194,7 +194,7 @@ class _UserPageState extends State<UserPage> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(
+                  Container(
                     child: ElevatedButton.icon(
                       icon:
                           Icon(Icons.calendar_month_outlined, color: isuzu500),
@@ -225,7 +225,7 @@ class _UserPageState extends State<UserPage> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(
+                  Container(
                     child: ElevatedButton.icon(
                       icon:
                           Icon(Icons.calendar_month_outlined, color: isuzu500),
@@ -256,7 +256,7 @@ class _UserPageState extends State<UserPage> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(
+                  Container(
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -297,7 +297,7 @@ class _UserPageState extends State<UserPage> {
             const SizedBox(height: 16),
             Row(
               children: [
-                Expanded(
+                Container(
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.file_upload_outlined,
                         color: Colors.white),
