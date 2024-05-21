@@ -111,7 +111,9 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                 Container(
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -135,8 +137,10 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 8),
               const Text("Belum Punya Akun?"),
               const SizedBox(height: 8),
-              Row(children: [
-                Container(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Center(
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(

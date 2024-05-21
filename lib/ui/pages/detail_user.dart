@@ -44,7 +44,7 @@ class _DetailUserState extends State<DetailUser> {
           },
         ),
       ),
-      body: SingleChildScrollView(
+      body: SingleChildScrollView( //Need to be fixed
         child: Stack(
           children: [
             Container(
@@ -64,7 +64,7 @@ class _DetailUserState extends State<DetailUser> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  const SizedBox(height: 16.0), //Need to be fixed
+                  const SizedBox(height: 16.0),
                   const Text(
                     'Nama Unit',
                     style: TextStyle(fontSize: 16.0, color: Colors.grey),
@@ -102,7 +102,7 @@ class _DetailUserState extends State<DetailUser> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  const SizedBox(height: 16.0),
+                  SizedBox(height: height(context) * 0.05), //Need to be fixe
                   FutureBuilder<Map<String, dynamic>>(
                     future: oilCheckData,
                     builder: (BuildContext context,
@@ -244,7 +244,9 @@ class _DetailUserState extends State<DetailUser> {
                         } else {
                           lastServiceText = 'Belum Tersedia';
                         }
+                        
                         return Card(
+                          margin: EdgeInsets.only(bottom: width(context) * 0.15),
                           color: Colors.white,
                           surfaceTintColor: Colors.white,
                           child: Padding(
